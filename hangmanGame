@@ -1,0 +1,153 @@
+package finalprojecthangman.utilities;
+
+import java.io.*;
+import java.util.*;
+
+/**
+ *
+ * @author Cat
+ */
+public class Game {
+
+    private String gameSelectedWord;
+    private String playerCurrentWord = "";
+    private String usedLetters = "";
+    private int currentTurn = 1;
+    private final boolean DEBUG = false;
+
+    
+
+    public void printScore(String playerName, int playerDifficulty, boolean wonGame) throws IOException {
+        String filename = "scoreboard.txt";
+        FileWriter writefile = new FileWriter(filename, true);
+        PrintWriter output = new PrintWriter(writefile);
+        output.print(playerName);
+        output.println();
+        output.print(playerDifficulty);
+        output.println();
+        output.print(gameSelectedWord);
+        output.println();
+        if (wonGame) {
+            output.println("Won the game");
+        } else {
+            output.println("Lost the game");
+        }
+        output.println("");
+        output.close();
+    }
+
+    public boolean finalAnswer() {
+        boolean wonGame = true;
+        Scanner keyboard = new Scanner(System.in);
+        Ascii.printHangman(getCurrentTurn());
+        System.out.println("Your current word: " + playerCurrentWord);
+        System.out.println("Your used letters: " + usedLetters);
+        System.out.println("Guess the word or die.");
+        String word = keyboard.nextLine();
+        System.out.println("");
+        if (word.equalsIgnoreCase(gameSelectedWord)) {
+            System.out.println("You win!!");
+        } else {
+            wonGame = false;
+            System.out.println("You lose.");
+            System.out.println("The word was: "+gameSelectedWord);
+        }
+        return wonGame;
+    }
+
+    public void playRound() {
+        Scanner keyboard = new Scanner(System.in);
+        Ascii.printHangman(getCurrentTurn());
+        System.out.println("Your current word: " + playerCurrentWord);
+        System.out.println("Your used letters: " + usedLetters);
+        System.out.print("Enter a letter: ");
+        String userIn = keyboard.nextLine();
+        while(usedLetters.contains(userIn.toUpperCase())){
+            System.out.print("You have already used "+userIn+" please enter another letter: ");
+            userIn = keyboard.nextLine();
+        }
+        usedLetters += userIn.toUpperCase() + " "; //REQ#4
+        for (int i = 0; i < gameSelectedWord.length(); i++) {
+            if (userIn.charAt(0) == gameSelectedWord.charAt(i)) {
+                char[] wordChar = playerCurrentWord.toCharArray();
+                wordChar[i] = gameSelectedWord.charAt(i);
+                playerCurrentWord = String.valueOf(wordChar);
+            }
+        }
+        if(!(gameSelectedWord.contains(userIn))){
+            setCurrentTurn(getCurrentTurn()+1);
+        }
+    }
+
+    public void selectRandomWord(int difficulty) throws IOException {
+        Wordlist words = new Wordlist();
+        words.writeWordsToFiles();
+        words.addWordsToArray(words.pickFile(difficulty));
+        Random r = new Random(); //REQ#3
+        int randomIndex = r.nextInt(words.getWords().size());
+        setGameSelectedWord(words.getWords().get(randomIndex));
+        if (DEBUG) {
+            System.out.println(gameSelectedWord);
+        }
+        for (int i = 0; i < gameSelectedWord.length(); i++) {
+            playerCurrentWord += "_";
+        }
+    }
+
+    /**
+     * @return the gameSelectedWord
+     */
+    public String getGameSelectedWord() {
+        return gameSelectedWord;
+    }
+
+    /**
+     * @param gameSelectedWord the gameSelectedWord to set
+     */
+    public void setGameSelectedWord(String gameSelectedWord) {
+        this.gameSelectedWord = gameSelectedWord;
+    }
+
+    /**
+     * @return the playerCurrentWord
+     */
+    public String getPlayerCurrentWord() {
+        return playerCurrentWord;
+    }
+
+    /**
+     * @param playerCurrentWord the playerCurrentWord to set
+     */
+    public void setPlayerCurrentWord(String playerCurrentWord) {
+        this.playerCurrentWord = playerCurrentWord;
+    }
+
+    /**
+     * @return the usedLetters
+     */
+    public String getUsedLetters() {
+        return usedLetters;
+    }
+
+    /**
+     * @param usedLetters the usedLetters to set
+     */
+    public void setUsedLetters(String usedLetters) {
+        this.usedLetters = usedLetters;
+    }
+
+    /**
+     * @return the currentTurn
+     */
+    public int getCurrentTurn() {
+        return currentTurn;
+    }
+
+    /**
+     * @param currentTurn the currentTurn to set
+     */
+    public void setCurrentTurn(int currentTurn) {
+        this.currentTurn = currentTurn;
+    }
+
+}
