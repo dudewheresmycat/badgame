@@ -1,0 +1,52 @@
+package finalprojecthangman;
+import finalprojecthangman.utilities.*;
+import java.util.*;
+import java.io.*;
+        
+
+/**
+ *
+ * @author Cat
+ */
+public class FinalProjectHangman {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) throws IOException{
+        
+        System.out.println("################################");
+        System.out.println("# Welcome to the hangman game! #");
+        System.out.println("# By: Catsune             #");//REQ#1
+        System.out.println("################################");
+        System.out.println("Instructions:\nStart off entering your name and "
+            + "desired difficulty, with 1 being easy and 7 being the hardest.\n\n"
+            + "Each turn enter a SINGLE letter, if it is not in the mystery "
+            + "word the hangman gains a part\nand no letter is filled in, otherwise "
+            + "the letter is filled in and the hangman remains the same.\n"
+            + "\nWhen the entire man is hanged you "
+            + "get one last chance to guess the word before losing. \nIf you "
+            + "guess the word right or fill it in completely you win.\n");
+        boolean wonGame = false;
+        Player player = new Player(); //REQ#9
+        Game hangman = new Game();
+        hangman.selectRandomWord(player.getDifficulty());
+        while(hangman.getCurrentTurn()<=7){ //REQ#7
+            hangman.playRound();
+            if(hangman.getPlayerCurrentWord().equals(hangman.getGameSelectedWord())){
+                wonGame = true;
+                System.out.println("You win!!");
+                break;
+            }
+        }
+        if(!(hangman.getPlayerCurrentWord().equals(hangman.getGameSelectedWord()))){
+            wonGame = hangman.finalAnswer();
+        }
+        hangman.printScore(player.getPlayerName(), player.getDifficulty(), wonGame);
+        System.out.println("Check scoreboard.txt for records");
+        
+        
+        
+    }
+    
+}
