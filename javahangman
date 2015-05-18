@@ -45,7 +45,7 @@ public class FinalProjectHangman {
         hangman.printScore(player.getPlayerName(), player.getDifficulty(), wonGame);
         System.out.println("Check scoreboard.txt for records");
         
-        
+        //
         
     }
     
