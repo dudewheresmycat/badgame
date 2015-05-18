@@ -144,7 +144,7 @@ public class Game {
     }
 
     /**
-     * @param currentTurn the currentTurn to set
+     * //@param currentTurn the currentTurn to set
      */
     public void setCurrentTurn(int currentTurn) {
         this.currentTurn = currentTurn;
