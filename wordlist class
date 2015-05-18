@@ -1,0 +1,69 @@
+package finalprojecthangman.utilities;
+
+
+import java.io.*;
+import java.util.*;
+
+/**
+ *
+ * @author Cat
+ */
+public class Wordlist {
+    private ArrayList<String> words; //REQ#10
+    private final File masterWordList = new File("alldictionarywords.txt");
+    
+    public File pickFile(int difficulty) { //REQ#8
+        //REQ#5
+        if (difficulty <= 1) {
+            System.out.println("Very Easy difficulty chosen \n");
+        } else if (difficulty == 2) {
+            System.out.println("Easy difficulty chosen \n");
+        } else if (difficulty == 3) {
+            System.out.println("Medium difficulty chosen \n");
+        } else if (difficulty == 4) {
+            System.out.println("Hard difficulty chosen \n");
+        } else if (difficulty >= 5) {
+            System.out.println("Very Hard difficulty chosen \n");
+        }
+        difficulty += 5;
+        String wordLengthFile = "dictionarywords" + difficulty + ".txt";
+        File wordsToUse = new File(wordLengthFile);
+        return wordsToUse;
+    }
+    public void addWordsToArray(File wordsToUse) throws IOException { //REQ#11
+        Scanner scan = new Scanner(wordsToUse);
+        this.words = new ArrayList<>();
+        while (scan.hasNext()) {
+            getWords().add(scan.nextLine());
+        }
+        scan.close();
+    }
+    
+    // not part of the game but a seperate method to sort a big file 
+    // from the web into smaller word files based on word length
+    public void writeWordsToFiles() throws IOException {
+        for (int wordlength = 4; wordlength < 13; wordlength++) {
+            Scanner scanFile = new Scanner(masterWordList);
+            String filename = "dictionarywords" + wordlength + ".txt";
+            FileWriter writefile = new FileWriter(filename, false);
+            PrintWriter output = new PrintWriter(writefile);
+            while (scanFile.hasNext()) {
+                String letterword = scanFile.nextLine();
+                if (letterword.length() == wordlength) {
+                    output.print(letterword);
+                    output.println();
+                }
+            }
+            output.close();
+        }
+    }
+
+    /**
+     * @return gets the ArrayList of the words added based on difficulty
+     */
+    public ArrayList<String> getWords() {
+        return words;
+    }
+}
+
+
