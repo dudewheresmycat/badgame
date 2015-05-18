@@ -23,7 +23,7 @@ public class Game {
         PrintWriter output = new PrintWriter(writefile);
         output.print(playerName);
         output.println();
-        output.print(playerDifficulty);
+        output.print(playerDifficulty);//
         output.println();
         output.print(gameSelectedWord);
         output.println();
