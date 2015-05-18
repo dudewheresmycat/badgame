@@ -1,0 +1,53 @@
+package finalprojecthangman.utilities;
+
+import java.util.Scanner;
+
+/**
+ *
+ * @author Cat
+ */
+public class Player {
+    
+    private String playerName;
+    private int difficulty;
+    
+    
+    public Player(){
+        Scanner keyboard = new Scanner(System.in);
+        System.out.println("Enter your name: "); //REQ#2
+        this.playerName = keyboard.nextLine();
+        System.out.println("Select the difficulty(1-7): "); //REQ#2
+        this.difficulty = Integer.parseInt(keyboard.nextLine());
+        System.out.println("");
+    }
+    /**
+     * @return the playerName
+     */
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    /**
+     * @param playerName the playerName to set
+     */
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
+
+    /**
+     * @return the difficulty
+     */
+    public int getDifficulty() {
+        return difficulty;
+    }
+
+    /**
+     * @param difficulty the difficulty to set
+     */
+    public void setDifficulty(int difficulty) {
+        this.difficulty = difficulty;
+    }
+    
+    
+    
+}
